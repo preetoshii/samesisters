@@ -1,0 +1,40 @@
+.card {
+  position: absolute;
+  width: 90vw;
+  max-width: 400px;
+  height: 80vh;
+  max-height: calc(400px * 16 / 9); /* Maintain 9:16 aspect ratio */
+  cursor: grab;
+  user-select: none;
+  transform-origin: center;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: white;
+  position: relative;
+}
+
+/* Ensure cards maintain aspect ratio on different screens */
+@media (max-width: 768px) {
+  .card {
+    width: 85vw;
+    height: calc(85vw * 16 / 9);
+    max-height: 85vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    max-width: 450px;
+    max-height: calc(450px * 16 / 9);
+  }
+}
