@@ -82,15 +82,15 @@ Build order based on technical dependencies and architectural wisdom. Each phase
 **Why First**: Define the data shape that everything will consume. This is the contract between frontend and future admin UI.
 
 1. **JSON Schema Design**
-   - pieces.json structure (images, story, pricing, fabric types)
-   - fabrics.json structure (video, caption, type, yards, cost)
-   - philosophy.json, style.json, etc.
+   - pieces.json structure (images, story, pricing, tags, fabric types)
+   - fabrics.json structure (video, caption, tags, type, yards, cost)
+   - philosophy.json, filter.json, sachi-moments.json
    - TypeScript interfaces for all data types
 
 2. **Sample Inventory**
    - 5-10 sample pieces with real data
    - 5-10 sample fabrics with videos
-   - All philosophy and style cards
+   - All philosophy cards
    - Sachi moment videos
 
 3. **Asset Organization**
@@ -146,6 +146,7 @@ Build order based on technical dependencies and architectural wisdom. Each phase
 1. **Base Card Component**
    - Shared card wrapper with render props/composition
    - Card state management (default vs expanded)
+   - 9:16 aspect ratio, ~80% viewport height
    - Animation hooks for Framer Motion
    - Consume TypeScript interfaces from Phase 1
 
@@ -219,6 +220,7 @@ Build order based on technical dependencies and architectural wisdom. Each phase
 2. **Piece Cards** (basic display only)
    - Image handling
    - Price display
+   - Tags display (occasions/moods)
    - Basic info overlay
    - Uses pieces.json
 
@@ -287,7 +289,8 @@ Build order based on technical dependencies and architectural wisdom. Each phase
 
 2. **Piece Card Expansion**
    - Image gallery
-   - Scrollable content
+   - Tags displayed prominently
+   - Scrollable content with story
    - Fabric selection UI
    - Price calculations
    - Size inputs
@@ -419,9 +422,11 @@ Build order based on technical dependencies and architectural wisdom. Each phase
    - Modify existing JSON structure
 
 3. **Piece Management**
-   - Add/edit pieces
+   - Add/edit pieces with images
+   - Manage custom tags (occasions, moods, moments)
    - Set pricing
-   - Define fabric types
+   - Define compatible fabric types
+   - Archive/duplicate pieces
 
 4. **GitHub Integration**
    - Edge functions
@@ -555,7 +560,7 @@ samesisters/
 
 ### 3. Asset Creation Guide
 
-**Piece Images** (1200x1600px portrait)
+**Piece Images** (1080x1920px - 9:16 aspect ratio)
 - Use Canva/Figma or photos
 - Consistent style/lighting
 - Each piece gets its own folder
@@ -563,7 +568,7 @@ samesisters/
 - 5-10 different pieces
 - 3-5 images per piece
 
-**Filter Images** (1200x1600px portrait)
+**Filter Images** (1080x1920px - 9:16 aspect ratio)
 - Can be abstract/artistic
 - Represent gender expression (feminine/masculine)
 - High quality but can be simple
