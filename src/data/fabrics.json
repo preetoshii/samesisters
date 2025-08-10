@@ -1,9 +1,9 @@
 {
   "fabrics": [
     {
-      "id": "delhi-silk-blue",
+      "id": "light-blue-silk",
       "type": "fabric",
-      "name": "Delhi Blue Silk",
+      "name": "Light Blue Silk",
       "fabricType": "silk",
       "video": "/videos/fabrics/light-blue-silk.mp4",
       "caption": "Found in a 100-year-old shop in Old Delhi",
@@ -34,7 +34,7 @@
       "costPerYard": 35
     },
     {
-      "id": "kashmiri-wool",
+      "id": "kashmiri-fabric",
       "type": "fabric",
       "name": "Kashmiri Wool",
       "fabricType": "wool",
@@ -45,7 +45,7 @@
       "costPerYard": 85
     },
     {
-      "id": "olive-khadi",
+      "id": "olive-kala-fabric",
       "type": "fabric",
       "name": "Olive Khadi",
       "fabricType": "cotton",
@@ -78,7 +78,7 @@
       "costPerYard": 38
     },
     {
-      "id": "blue-white-cotton",
+      "id": "blue-and-white-lined-cotton",
       "type": "fabric",
       "name": "Blue Striped Cotton",
       "fabricType": "cotton",

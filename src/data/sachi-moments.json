@@ -23,22 +23,6 @@
       "video": "/videos/sachi/process.mp4",
       "duration": "30s",
       "description": "My direct, personal approach"
-    },
-    {
-      "id": "sachi-4",
-      "type": "sachi-moment",
-      "title": "Every fabric has a story",
-      "video": "/videos/sachi/inspiration.mp4",
-      "duration": "15s",
-      "description": "Why I source personally"
-    },
-    {
-      "id": "sachi-5",
-      "type": "sachi-moment",
-      "title": "My journey to America",
-      "video": "/videos/sachi/journey.mp4",
-      "duration": "25s",
-      "description": "Cultural confusion and finding my way"
     }
   ]
 }
