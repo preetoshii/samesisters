@@ -4,9 +4,13 @@ import { Card } from '../cards/Card';
 import { PhilosophyCard } from '../cards/PhilosophyCard';
 import { FilterCard } from '../cards/FilterCard';
 import { PieceCard } from '../cards/PieceCard';
+import { FabricStoryCard } from '../cards/FabricStoryCard';
+import { SachiMomentCard } from '../cards/SachiMomentCard';
 import philosophyData from '../../data/philosophy.json';
 import filterData from '../../data/filters.json';
 import piecesData from '../../data/pieces.json';
+import fabricsData from '../../data/fabrics.json';
+import sachiMomentsData from '../../data/sachi-moments.json';
 import './CollectionView.css';
 
 interface CollectionViewProps {
@@ -33,18 +37,28 @@ export function CollectionView({ collection }: CollectionViewProps) {
       map.set(card.id, card as CardType);
     });
     
-    // Later: Add fabric cards, etc.
+    // Add fabric cards
+    fabricsData.fabrics.forEach((card) => {
+      map.set(card.id, card as CardType);
+    });
+    
+    // Add Sachi moment cards
+    sachiMomentsData.sachiMoments.forEach((card) => {
+      map.set(card.id, card as CardType);
+    });
     
     return map;
   }, []);
   
   // Get the actual card objects for the collection
+  // Only show piece and fabric cards (the actual purchasable items)
   const collectionCards = useMemo(() => {
     return collection
       .map(id => cardMap.get(id))
-      .filter((card): card is CardType => card !== undefined);
+      .filter((card): card is CardType => card !== undefined)
+      .filter(card => card.type === 'piece' || card.type === 'fabric');
   }, [collection, cardMap]);
-  if (collection.length === 0) {
+  if (collectionCards.length === 0) {
     return (
       <div className="collection-view">
         <div className="collection-empty">
@@ -52,7 +66,7 @@ export function CollectionView({ collection }: CollectionViewProps) {
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
           </svg>
           <p>Your collection is empty</p>
-          <p className="collection-hint">Swipe right on items you like!</p>
+          <p className="collection-hint">Swipe right on pieces and fabrics you love!</p>
         </div>
       </div>
     );
@@ -66,6 +80,10 @@ export function CollectionView({ collection }: CollectionViewProps) {
         return <FilterCard card={card as any} />;
       case 'piece':
         return <PieceCard card={card as any} />;
+      case 'fabric':
+        return <FabricStoryCard card={card as any} />;
+      case 'sachi-moment':
+        return <SachiMomentCard card={card as any} />;
       default:
         return <div>Card type not implemented: {card.type}</div>;
     }

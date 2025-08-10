@@ -1,0 +1,86 @@
+.sachi-moment-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+}
+
+.sachi-video-container {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  top: -5%;
+  left: -5%;
+}
+
+.sachi-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sachi-info-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.sachi-content {
+  color: white;
+  text-align: center;
+}
+
+.sachi-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.sachi-duration {
+  font-size: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.sachi-play-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.sachi-play-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
+
+.sachi-play-button.playing {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.sachi-play-button svg {
+  width: 30px;
+  height: 30px;
+  color: #000;
+  margin-left: 3px;
+}
+
+.sachi-play-button.playing svg {
+  margin-left: 0;
+}

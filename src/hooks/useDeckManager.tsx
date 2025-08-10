@@ -3,6 +3,8 @@ import { Card } from '../types';
 import philosophyData from '../data/philosophy.json';
 import filterData from '../data/filters.json';
 import piecesData from '../data/pieces.json';
+import fabricsData from '../data/fabrics.json';
+import sachiMomentsData from '../data/sachi-moments.json';
 
 interface DeckState {
   currentIndex: number;
@@ -66,14 +68,21 @@ export function useDeckManager() {
     
     // Add philosophy cards - but only include a few (e.g., 3-4 randomly selected)
     const allPhilosophyCards = philosophyData.philosophies as Card[];
-    console.log('Total philosophy cards available:', allPhilosophyCards.length);
     const selectedPhilosophy = shuffleArray(allPhilosophyCards).slice(0, 3);
-    console.log('Selected philosophy cards:', selectedPhilosophy.map(c => (c as any).id));
     contentCards.push(...selectedPhilosophy);
     
     // Add all piece cards (these should dominate the deck)
     const pieceCards = piecesData.pieces as Card[];
     contentCards.push(...pieceCards);
+    
+    // Add some fabric cards (randomly select 3-4)
+    const allFabricCards = fabricsData.fabrics as Card[];
+    const selectedFabrics = shuffleArray(allFabricCards).slice(0, 4);
+    contentCards.push(...selectedFabrics);
+    
+    // Add all Sachi moment cards (there are only 3)
+    const sachiCards = sachiMomentsData.sachiMoments as Card[];
+    contentCards.push(...sachiCards);
     
     // 3. Shuffle all content cards together
     const shuffledContent = shuffleArray(contentCards);
@@ -160,6 +169,16 @@ export function useDeckManager() {
     saveState(deckState);
   }, [deckState]);
 
+  // Get count of purchasable items in collection (pieces and fabrics only)
+  const getPurchasableCollectionCount = useCallback(() => {
+    const { collection, queue } = deckState;
+    // Count how many collection items are pieces or fabrics
+    return collection.filter(cardId => {
+      const card = queue.find(c => c.id === cardId);
+      return card && (card.type === 'piece' || card.type === 'fabric');
+    }).length;
+  }, [deckState]);
+
   // Clear all data and reset
   const clearAll = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
@@ -179,6 +198,7 @@ export function useDeckManager() {
     handleSwipe,
     progress: getProgress(),
     collection: deckState.collection,
+    purchasableCollectionCount: getPurchasableCollectionCount(),
     swipeHistory: deckState.swipeHistory,
     resetDeck: initializeDeck,
     clearAll

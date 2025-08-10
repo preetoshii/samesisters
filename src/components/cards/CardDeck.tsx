@@ -5,6 +5,8 @@ import { Card } from './Card';
 import { PhilosophyCard } from './PhilosophyCard';
 import { FilterCard } from './FilterCard';
 import { PieceCard } from './PieceCard';
+import { FabricStoryCard } from './FabricStoryCard';
+import { SachiMomentCard } from './SachiMomentCard';
 import { useDeck } from '../../contexts/DeckContext';
 import './CardDeck.css';
 
@@ -56,7 +58,10 @@ export function CardDeck({ onSwipe }: CardDeckProps) {
         return <FilterCard card={card as any} />;
       case 'piece':
         return <PieceCard card={card as any} />;
-      // Add other card types here as we implement them
+      case 'fabric':
+        return <FabricStoryCard card={card as any} />;
+      case 'sachi-moment':
+        return <SachiMomentCard card={card as any} />;
       default:
         return <div>Card type not implemented: {card.type}</div>;
     }

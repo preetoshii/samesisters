@@ -10,7 +10,7 @@ import './App.css';
 
 function AppContent() {
   const [currentView, setCurrentView] = useState<View>('swipe');
-  const { collection, clearAll } = useDeck();
+  const { collection, clearAll, purchasableCollectionCount } = useDeck();
 
   const handleSwipe = (cardId: string, direction: 'left' | 'right') => {
     console.log(`Card ${cardId} swiped ${direction}`);
@@ -43,7 +43,7 @@ function AppContent() {
       <FloatingNav 
         currentView={currentView}
         onViewChange={setCurrentView}
-        collectionCount={collection.length}
+        collectionCount={purchasableCollectionCount}
       />
     </div>
   );
