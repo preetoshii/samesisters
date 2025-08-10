@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
-import { ReactNode, useState } from 'react';
+import { motion, useMotionValue, useTransform, PanInfo, useAnimation } from 'framer-motion';
+import { ReactNode, useState, useEffect } from 'react';
 import './Card.css';
 
 interface CardProps {
@@ -11,21 +11,77 @@ interface CardProps {
 
 export function Card({ children, onSwipe, isActive = false, index = 0 }: CardProps) {
   const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [hasHitThreshold, setHasHitThreshold] = useState(false);
+  
+  // Adaptive values based on screen width - fully proportional
+  const screenWidth = window.innerWidth;
+  
+  // Swipe threshold: ~25% of screen width
+  const SWIPE_THRESHOLD = screenWidth * 0.25;
+  
+  // Rotation range: ~50% of screen width
+  const ROTATION_RANGE = screenWidth * 0.5;
   
   // Motion values for drag
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-30, 30]);
-  const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0.5, 1, 1, 1, 0.5]);
+  const y = useMotionValue(0);
+  const rotate = useTransform(x, [-ROTATION_RANGE, ROTATION_RANGE], [-30, 30]);
+  const rotateY = useTransform(y, [-200, 200], [5, -5]); // Subtle 3D tilt
+  
+  // Dynamic shadow based on position
+  const shadowX = useTransform(x, [-200, 200], [20, -20]);
+  const shadowY = useTransform(y, [-200, 200], [20, -20]);
+  const boxShadow = useTransform(
+    [shadowX, shadowY],
+    ([latestX, latestY]) => `${latestX}px ${latestY}px 30px rgba(0, 0, 0, 0.2)`
+  );
 
-  const handleDragEnd = (_: any, info: PanInfo) => {
-    const threshold = 100;
+  const handleDragStart = () => {
+    setIsDragging(true);
+    // Haptic feedback on drag start
+    if ('vibrate' in navigator) {
+      navigator.vibrate(10);
+    }
+  };
+
+  const handleDragEnd = async (_: any, info: PanInfo) => {
+    setIsDragging(false);
+    setHasHitThreshold(false);
     
-    if (Math.abs(info.offset.x) > threshold) {
+    const SWIPE_VELOCITY_THRESHOLD = 500;
+    
+    // Check horizontal movement for swipe
+    const shouldSwipe = Math.abs(info.offset.x) > SWIPE_THRESHOLD || 
+                       Math.abs(info.velocity.x) > SWIPE_VELOCITY_THRESHOLD;
+    
+    if (shouldSwipe) {
       const direction = info.offset.x > 0 ? 'right' : 'left';
       setExitDirection(direction);
       onSwipe?.(direction);
     }
   };
+
+  // Monitor x position for threshold feedback
+  useEffect(() => {
+    if (!isDragging) return;
+    
+    const unsubscribe = x.onChange((latest) => {
+      const hitThreshold = Math.abs(latest) >= SWIPE_THRESHOLD;
+      
+      if (hitThreshold && !hasHitThreshold) {
+        // Haptic feedback when crossing threshold
+        if ('vibrate' in navigator) {
+          navigator.vibrate(20);
+        }
+        setHasHitThreshold(true);
+      } else if (!hitThreshold && hasHitThreshold) {
+        setHasHitThreshold(false);
+      }
+    });
+
+    return unsubscribe;
+  }, [x, SWIPE_THRESHOLD, hasHitThreshold, isDragging]);
 
   const variants = {
     initial: {
@@ -33,10 +89,12 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       y: index * 10,
       opacity: index > 2 ? 0 : 1,
       zIndex: 10 - index,
+      x: 0,
     },
     active: {
       scale: 1,
       y: 0,
+      x: 0,
       opacity: 1,
       transition: {
         duration: 0.3,
@@ -54,11 +112,22 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
     },
   };
 
+  // Calculate current scale based on state
+  const currentScale = isDragging ? (hasHitThreshold ? 1.15 : 1.05) : 1;
+
   return (
     <motion.div
       className="card"
-      drag={isActive ? 'x' : false}
-      dragConstraints={{ left: 0, right: 0 }}
+      drag={isActive ? true : false}
+      dragSnapToOrigin={true}
+      dragConstraints={{ 
+        left: -window.innerWidth * 0.4, 
+        right: window.innerWidth * 0.4,
+        top: -window.innerHeight * 0.3,
+        bottom: window.innerHeight * 0.3
+      }}
+      dragElastic={0.15}
+      dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
       onDragEnd={handleDragEnd}
       initial="initial"
       animate={isActive ? 'active' : 'initial'}
@@ -66,14 +135,28 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       variants={variants}
       style={{
         x,
+        y,
         rotate: isActive ? rotate : 0,
-        opacity: isActive ? opacity : 1,
+        rotateX: isActive ? rotateY : 0,
       }}
-      whileDrag={{ scale: 1.05 }}
+      onDragStart={handleDragStart}
     >
-      <div className="card-inner">
+      <motion.div 
+        className="card-inner"
+        animate={{ scale: currentScale }}
+        transition={{
+          scale: {
+            type: "spring",
+            stiffness: hasHitThreshold ? 700 : 400,
+            damping: hasHitThreshold ? 15 : 25
+          }
+        }}
+        style={{
+          boxShadow: isActive ? boxShadow : '0 10px 30px rgba(0, 0, 0, 0.2)'
+        }}
+      >
         {children}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
