@@ -67,14 +67,18 @@ Appear first in the deck sequence, before all other cards.
 ### 2. Piece Cards
 - Editorial-quality photography fills entire card
 - Subtle info overlay: piece name, "Around $XXX" starting price
+- **Tags displayed**: "garden party" "when you're feeling creative" "for making an entrance"
 - **Tap to expand**: Card grows to fill screen with scrollable content:
   - Image gallery (tap to advance through images)
   - The story behind the piece
+  - Tags shown prominently
   - Customization options with live price updates (pop animation on changes)
   - Direct purchase or "Design with Sachi" paths
   - X button to minimize back to deck
 - Swipe right adds to "Your Collection"
 - Each card maintains its own expanded state
+
+**Educational Purpose of Tags**: These tags subtly teach users what Samesisters creates - pieces for special moments, not everyday basics. Tags blend literal occasions ("garden party"), moods ("when you're feeling bold"), and moments ("for making an entrance"). This creates an emotional connection while communicating the brand's focus on elevated, intentional dressing. Users self-select by swiping right on pieces tagged for feelings and occasions that resonate with them.
 
 ### 3. Philosophy Cards
 **Opinion statements overlaid on full-card textured fabric backgrounds:**
@@ -89,15 +93,7 @@ Appear first in the deck sequence, before all other cards.
 
 Typography centered on textured backgrounds that fill the entire card. Users think they're sharing opinions, but they're learning what makes Samesisters different.
 
-### 4. Style Preference Cards
-**Full-card visual representations of style choices:**
-- Fabric types: "Crisp Linens" / "Fluid Silks" / "Structured Cottons"
-- Silhouettes: "Architectural" / "Flowing" / "Minimalist" / "Dramatic"
-- Occasions: "Everyday Elevation" / "Cultural Celebrations" / "Making Statements"
-
-Each uses full-card imagery with text overlay. Builds style profile through visual preferences. These appear scattered throughout the deck to gather preferences progressively. No expansion state - swipe only.
-
-### 5. Sachi Moments
+### 4. Sachi Moments
 **Video cards with full-card preview and play button overlay:**
 - "My inspiration" (15s) - What drives her design philosophy
 - "How it started for me" (20s) - Growing up in her mother's boutique
@@ -137,7 +133,6 @@ ROOT (/)
 │   │   ├── Filter Cards → Add pieces to deck
 │   │   ├── Piece Cards → Expand to detail state (includes customization)
 │   │   ├── Philosophy Cards → (No expansion - swipe only)
-│   │   ├── Style Preference Cards → (No expansion - swipe only) 
 │   │   ├── Sachi Video Cards → Expand to full-screen video
 │   │   └── Fabric Story Cards → (No expansion - swipe only)
 │   │
@@ -322,7 +317,6 @@ Selections are formatted into a message and copied to clipboard for easy pasting
 - **Piece cards**: Tappable to expand and customize
 - **Sachi videos**: Tappable to play full-screen
 - **Philosophy cards**: Static, shows your values
-- **Style preference cards**: Static, shows your taste
 - **Fabric cards**: Static, shows what caught your eye
 - Filter cards are NOT saved to collection
 
@@ -473,6 +467,7 @@ Once Sachi and the customer agree on the final design through messaging:
       "basePrice": 600,
       "images": ["1.jpg", "2.jpg", "3.jpg"],
       "story": "Inspired by the layered Italian ice cream...",
+      "tags": ["garden party", "when you're feeling creative", "for making an entrance"],
       "compatibleFabricTypes": ["silk", "cotton", "linen"],
       "genderCategory": "feminine",
       "fabricSurcharge": 50  // Optional premium for certain fabrics
@@ -535,8 +530,7 @@ The array of cards presented to each user, loaded from static JSON data. Default
 - ~8 Philosophy cards (scattered throughout)
 - ~4 Sachi Moment videos (scattered throughout)
 - ~6 Fabric Story cards (scattered throughout)
-- ~6 Style Preference cards (scattered throughout)
-- Total: ~46 cards (26 without pieces initially)
+- Total: ~40 cards (20 without pieces initially)
 
 Default deck composition is hard-coded for simplicity. Filter Cards appear first in sequence and add appropriate piece cards to the deck based on user selections (feminine/masculine preferences).
 
@@ -581,9 +575,12 @@ Settings that control the composition of the card deck. Developers can adjust th
 Each piece in the system includes:
 - Images and story content
 - Base price (set directly by Sachi)
+- Tags that blend occasions and moods (e.g., ["garden party", "when you're feeling bold", "for making an entrance"])
 - Compatible fabric types (e.g., ["silk", "cotton"])
 - Gender category for filtering
 - Optional fabric surcharge for premium materials
+
+Tags serve as subtle education, mixing literal occasions with emotional moments and moods. This teaches users that Samesisters creates pieces for special moments - whether that's a specific event or just when you want to feel a certain way.
 
 **Fabric Drops**
 When Sachi returns from sourcing trips, she manually updates the fabric JSON with new items, including costs and available yards. Simple announcement through her existing channels (Instagram, text list). No complex infrastructure - just updating content and letting people know what she found and how much is available.
@@ -706,6 +703,43 @@ Instead of manually selecting compatible pieces for each fabric, pieces define w
 ```
 This automatically determines compatibility without manual maintenance.
 
+**Managing Pieces**:
+```
+┌─────────────────────────────────┐
+│ [Image preview]                 │
+│ Cassata                         │
+│ Base Price: $600                │
+│ Tags: garden party, when you're │
+│ feeling creative, for making    │
+│ an entrance                     │
+│                                 │
+│ [Edit] [Archive] [Duplicate]    │
+└─────────────────────────────────┘
+
+[+ Add New Piece]
+```
+
+**Adding/Editing Pieces**:
+- Upload multiple images (drag & drop)
+- Enter name (e.g., "Cassata")
+- Write story/inspiration (rich text editor)
+- **Add tags** (with suggestions):
+  ```
+  Tags: [garden party] [when you're feeling creative] [+ Add tag]
+  
+  Suggestions based on your past tags:
+  • gallery opening • cultural celebration • for making an entrance
+  • when you're feeling bold • intimate gathering vibes
+  • creative wedding guest • festive but not formal
+  ```
+- Set base price
+- Select compatible fabric types: ☑ Silk ☑ Cotton ☑ Linen ☐ Wool
+- Choose gender category: ○ Feminine ● Both ○ Masculine
+- Optional fabric surcharge amount
+- Click save
+
+The tag system learns from Sachi's choices over time, suggesting her commonly used tags while always allowing new ones. This maintains consistency while preserving creative freedom.
+
 ### Pricing Calculations (Simplified)
 For simplicity, Sachi sets base prices directly on each piece:
 
@@ -728,11 +762,14 @@ Example:
 - Final: $675 + (3 × $20 × 2.5) = "Around $825"
 
 ### How Updates Work
-1. Sachi makes changes in the admin UI (pieces or fabrics)
+1. Sachi makes changes in the admin UI:
+   - Add/edit pieces with custom tags
+   - Update fabric inventory
+   - Archive pieces no longer available
 2. Changes are sent to GitHub via API
-3. GitHub updates the relevant JSON files
+3. GitHub updates the relevant JSON files (pieces.json, fabrics.json)
 4. Vercel sees the change and redeploys (~30 seconds)
-5. Website shows updated content with new pricing
+5. Website shows updated content immediately
 
 ### Developer Configuration
 The pricing configuration file allows developers to adjust:

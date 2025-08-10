@@ -232,15 +232,11 @@ Build order based on technical dependencies and architectural wisdom. Each phase
    - Video preview state
    - Play button overlay
 
-5. **Style Preference Cards**
-   - Visual preference tracking
-
 **Critical Decision**: Each card type should be completely independent yet share common behavior.
 
 ### What You Need to Do:
 
 1. **Create More Assets**
-   - Style preference images (minimalist, dramatic, etc.)
    - Filter card visuals (feminine/masculine silhouettes)
    - Can be abstract/artistic
    - Consistent visual style across all
@@ -541,14 +537,9 @@ samesisters/
 │   │   │   │   ├── 2.jpg
 │   │   │   │   └── 3.jpg
 │   │   │   └── ... (5-10 pieces total)
-│   │   ├── filters/
-│   │   │   ├── feminine-silhouettes.jpg
-│   │   │   └── masculine-cuts.jpg
-│   │   └── styles/
-│   │       ├── minimalist.jpg
-│   │       ├── dramatic.jpg
-│   │       ├── architectural.jpg
-│   │       └── flowing.jpg
+│   │   └── filters/
+│   │       ├── feminine-silhouettes.jpg
+│   │       └── masculine-cuts.jpg
 │   └── videos/
 │       ├── fabrics/
 │       │   ├── delhi-silk-blue.mp4 (5-10 sec loops)
@@ -572,9 +563,9 @@ samesisters/
 - 5-10 different pieces
 - 3-5 images per piece
 
-**Filter/Style Images** (1200x1600px portrait)
+**Filter Images** (1200x1600px portrait)
 - Can be abstract/artistic
-- Represent the concept (feminine, minimalist, etc.)
+- Represent gender expression (feminine/masculine)
 - High quality but can be simple
 
 **Fabric Videos** (1080x1920 vertical preferred)
@@ -605,9 +596,15 @@ Create a document with:
 **Piece Information** (for each piece)
 - Name: "Cassata" (or "Love All", "Roja", "Qameez", "Indigo")
 - Story: 2-3 paragraphs about inspiration
+- Tags: ["garden party", "when you're feeling creative", "for making an entrance"]
 - Base Price: $500-1500 range
 - Compatible Fabric Types: [silk, cotton, linen]
 - Gender Category: feminine/masculine/both
+
+Examples of tags (mix of occasions, moods, and moments):
+- Occasions: garden party, gallery opening, cultural celebration, creative wedding guest
+- Moods: when you're feeling bold, when you're feeling creative, when you want to stand out
+- Moments: for making an entrance, intimate gathering vibes, festive but not formal
 
 **Fabric Details** (for each fabric)
 - Name: "Delhi Blue Silk"
