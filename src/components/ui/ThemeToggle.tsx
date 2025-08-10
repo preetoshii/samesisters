@@ -1,13 +1,32 @@
+import { useState } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import './ThemeToggle.css';
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  
+  // Audio setup
+  const [clickSound] = useState(() => {
+    const audio = new Audio('/sounds/click-card.wav');
+    audio.volume = 0.3;
+    audio.preload = 'auto';
+    return audio;
+  });
+
+  const handleClick = () => {
+    // Play click sound
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {
+      // Ignore audio errors
+    });
+    
+    toggleTheme();
+  };
 
   return (
     <button
       className="theme-toggle"
-      onClick={toggleTheme}
+      onClick={handleClick}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (

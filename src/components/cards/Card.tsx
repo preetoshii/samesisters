@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, PanInfo, useAnimation } from 'framer-motion';
+import { motion, useMotionValue, useTransform, PanInfo, useAnimation, AnimatePresence } from 'framer-motion';
 import { ReactNode, useState, useEffect } from 'react';
 import './Card.css';
 
@@ -14,6 +14,15 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
   const [isDragging, setIsDragging] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [hasHitThreshold, setHasHitThreshold] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>('right');
+  
+  // Audio setup
+  const [clickSound] = useState(() => {
+    const audio = new Audio('/sounds/click-card.wav');
+    audio.volume = 0.3; // Set volume to 30%
+    audio.preload = 'auto';
+    return audio;
+  });
   
   // Adaptive values based on screen width - fully proportional
   const screenWidth = window.innerWidth;
@@ -28,14 +37,25 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotate = useTransform(x, [-ROTATION_RANGE, ROTATION_RANGE], [-30, 30]);
-  const rotateY = useTransform(y, [-200, 200], [5, -5]); // Subtle 3D tilt
   
 
   const handlePointerDown = () => {
     setIsPressed(true);
+    
+    // Play click sound
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {
+      // Ignore audio play errors
+    });
+    
     // Haptic feedback on press
     if ('vibrate' in navigator) {
-      navigator.vibrate(10);
+      try {
+        // Try a pattern for better Android compatibility
+        navigator.vibrate([50, 30, 50]);
+      } catch (e) {
+        // Ignore vibration errors
+      }
     }
   };
 
@@ -75,11 +95,17 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       if (hitThreshold && !hasHitThreshold) {
         // Haptic feedback when crossing threshold
         if ('vibrate' in navigator) {
-          navigator.vibrate(20);
+          // Stronger vibration for threshold crossing
+          navigator.vibrate(100);
         }
         setHasHitThreshold(true);
       } else if (!hitThreshold && hasHitThreshold) {
         setHasHitThreshold(false);
+      }
+      
+      // Update swipe direction
+      if (latest !== 0) {
+        setSwipeDirection(latest > 0 ? 'right' : 'left');
       }
     });
 
@@ -105,11 +131,11 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       },
     },
     exit: {
-      x: exitDirection === 'right' ? 300 : -300,
+      x: exitDirection === 'right' ? window.innerWidth : -window.innerWidth,
       opacity: 0,
       scale: 0.8,
       transition: {
-        duration: 0.3,
+        duration: 0.5,
         ease: 'easeOut',
       },
     },
@@ -123,12 +149,7 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       className="card"
       drag={isActive ? true : false}
       dragSnapToOrigin={true}
-      dragConstraints={{ 
-        left: -window.innerWidth * 0.4, 
-        right: window.innerWidth * 0.4,
-        top: -window.innerHeight * 0.3,
-        bottom: window.innerHeight * 0.3
-      }}
+      dragConstraints={false}
       dragElastic={0.15}
       dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
       onDragEnd={handleDragEnd}
@@ -140,7 +161,6 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
         x,
         y,
         rotate: isActive ? rotate : 0,
-        rotateX: isActive ? rotateY : 0,
       }}
       onDragStart={handleDragStart}
       onPointerDown={handlePointerDown}
@@ -149,16 +169,81 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
     >
       <motion.div 
         className="card-inner"
-        animate={{ scale: currentScale }}
+        animate={{ 
+          scale: currentScale,
+          borderColor: hasHitThreshold && isDragging 
+            ? (swipeDirection === 'right' ? 'var(--color-swipe-right)' : 'var(--color-swipe-left)')
+            : 'var(--color-border)'
+        }}
         transition={{
           scale: {
             type: "spring",
             stiffness: hasHitThreshold ? 700 : 400,
             damping: hasHitThreshold ? 15 : 25
+          },
+          borderColor: {
+            duration: 0
           }
         }}
       >
-        {children}
+        <motion.div
+          animate={{ 
+            filter: hasHitThreshold && isDragging ? 'blur(10px)' : 'blur(0px)' 
+          }}
+          transition={{ duration: 0.2 }}
+          style={{ width: '100%', height: '100%' }}
+        >
+          {children}
+        </motion.div>
+        <AnimatePresence>
+          {hasHitThreshold && isDragging && (
+            <>
+              <motion.div 
+                className="threshold-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundColor: 'var(--color-card-overlay)',
+                  pointerEvents: 'none',
+                  borderRadius: 'inherit',
+                  zIndex: 10
+                }}
+              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: swipeDirection === 'right' ? 'flex-start' : 'flex-end',
+                  padding: '0 3rem',
+                  pointerEvents: 'none',
+                  zIndex: 11
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 600,
+                    color: swipeDirection === 'right' ? 'var(--color-swipe-right)' : 'var(--color-swipe-left)',
+                    opacity: 0.9,
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  {swipeDirection === 'right' ? 'I like that' : 'Nah'}
+                </span>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </motion.div>
       {!isActive && (
         <div 

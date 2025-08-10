@@ -18,6 +18,20 @@ body {
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection only where needed */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 body {
@@ -31,4 +45,14 @@ body {
 #root {
   width: 100%;
   height: 100%;
+}
+
+/* Remove focus outlines globally */
+button, a {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus, a:focus {
+  outline: none;
 }

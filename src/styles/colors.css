@@ -15,6 +15,10 @@
   --color-border: #000000;
   --color-icon: #666666;
   
+  /* Swipe state colors */
+  --color-swipe-right: #0066FF;
+  --color-swipe-left: #666666;
+  
   /* Theme toggle */
   --color-toggle-bg: rgba(0, 0, 0, 0.05);
   --color-toggle-hover: rgba(0, 0, 0, 0.1);
@@ -35,6 +39,10 @@
   /* UI colors */
   --color-border: #ffffff;
   --color-icon: #a0a0a0;
+  
+  /* Swipe state colors */
+  --color-swipe-right: #0066FF;
+  --color-swipe-left: #666666;
   
   /* Theme toggle */
   --color-toggle-bg: rgba(255, 255, 255, 0.05);
