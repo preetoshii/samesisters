@@ -612,8 +612,10 @@ Create a document with:
 **Fabric Details** (for each fabric)
 - Name: "Delhi Blue Silk"
 - Caption: "Found in a 100-year-old shop"
+- Tags: ["airy", "luminous", "drapes-well"]
 - Type: silk
 - Available Yards: 12
+
 
 ### 5. Technical Prep
 

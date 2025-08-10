@@ -108,12 +108,14 @@ Each uses full-card imagery with text overlay. Builds style profile through visu
 Video preview fills card with title and duration overlay. Raw, authentic, directly addressing the camera. Tapping play expands the card to full-screen video with audio. X button stops video and returns to default card state.
 
 ### 6. Fabric Story Cards
-**Full-card looping videos with caption overlays:**
+**Full-card looping videos with caption and tag overlays:**
 - Video fills entire card showing fabric's drape, texture, and how it catches light
 - Sachi's discovery story overlaid: "Found in a 100-year-old shop in Delhi"
+- Fabric characteristic tags displayed subtly: "airy" "luminous" "drapes-well"
 - Subtle indicator of yards remaining (e.g., "12 yards available")
 - Other captions: "The last 10 yards from a closing mill in Ahmedabad", "Haggled for this at 5am in the Jaipur textile market"
 - Creates visceral connection to material before seeing pieces
+- Tags help customers understand fabric properties beyond visual
 - **No expansion state** - swipe only
 
 **Additional State - Within Piece Card Customization**:
@@ -489,6 +491,7 @@ Once Sachi and the customer agree on the final design through messaging:
       "type": "silk",
       "video": "delhi-silk.mp4",
       "caption": "Found in Old Delhi market",
+      "tags": ["airy", "luminous", "drapes-well"],
       "yardsAvailable": 12,
       "costPerYard": 20  // Sachi's cost, not customer price
     }
@@ -658,6 +661,7 @@ Managing Fabrics:
 │ [Video preview]                 │
 │ Delhi Blue Silk                 │
 │ "Found in Old Delhi market"     │
+│ Tags: airy, luminous, drapes-well │
 │ 12 yards remaining              │
 │ Cost: $20/yard                  │
 │                                 │
@@ -671,6 +675,13 @@ Managing Fabrics:
 - Upload video file (optimized automatically)
 - Enter name (e.g., "Jaipur Cotton")
 - Add short caption (under 10 words)
+- **Add tags** (comma-separated):
+  ```
+  Tags: [structured] [crisp] [breathable] [+ Add tag]
+  Common tags: airy, structured, fluid, crisp, soft, 
+  luminous, matte, sheer, opaque, lightweight, 
+  drapes-well, holds-shape, breathable, warm
+  ```
 - Set available yards
 - Enter cost per yard (what Sachi paid)
 - **Select fabric type**: 
