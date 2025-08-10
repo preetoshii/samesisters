@@ -36,7 +36,7 @@ You land on a philosophy card - elegant typography over textured fabric: "Fashio
 
 You swipe. 
 
-The second and third cards ask about your style preferences through visual choices - feminine silhouettes, masculine cuts. Full-card visualizations that you swipe right or left on. Your right swipes add corresponding pieces to your upcoming cards. If you swipe left on both, you'll see no clothing - just philosophy, fabrics, and Sachi's story.
+The first two cards present your style preferences through visual choices - feminine silhouettes, masculine cuts. Full-card visualizations that you swipe right or left on. Your right swipes add corresponding pieces to your upcoming cards. If you swipe left on both (or aren't sure), you'll see both types of pieces - ensuring everyone discovers clothing that might resonate.
 
 The next card might be a philosophy: "A piece feels more valuable when it's made just for me" over a textured background. You pause, then swipe right. It resonates.
 
@@ -62,6 +62,7 @@ Appear first in the deck sequence, before all other cards.
 - No binary language, just visual representation
 - Swiping right adds corresponding pieces to the deck
 - Can swipe right on both, one, or neither
+- Swiping left on both (or neither) adds BOTH types of pieces
 - Pieces aren't pre-loaded - only added after filter selection
 
 ### 2. Piece Cards
@@ -588,7 +589,12 @@ When Sachi returns from sourcing trips, she manually updates the fabric JSON wit
 ### Technical Architecture
 
 **Deck Building Logic**
-Filter cards appear first, followed by philosophy cards, style preference cards, Sachi videos, and fabric stories - but NO piece cards initially. When user swipes right on filter cards (feminine/masculine), corresponding pieces are dynamically added to the remaining deck. If user swipes left on both filters, they complete the experience seeing only brand philosophy and fabric stories. This ensures users only see relevant pieces and creates a personalized journey.
+Filter cards appear first, followed by philosophy cards, Sachi videos, and fabric stories - but NO piece cards initially. After filter selection:
+- **Swipe right on one or both filters**: Adds corresponding piece types to the deck
+- **Swipe left on both filters (or no selection)**: Adds BOTH feminine and masculine pieces
+- **Piece distribution**: Pieces are randomly distributed throughout the remaining deck positions
+
+This ensures everyone sees pieces (no empty experience) while respecting preferences. The random distribution creates a natural, discovery-based flow rather than clustering all pieces together.
 
 **Session Object**
 The data structure in localStorage maintaining user state throughout their journey. Includes liked items (collection), current deck position, filter selections, and active customizations. Keeps the experience seamless across page refreshes.
