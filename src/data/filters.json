@@ -1,0 +1,20 @@
+{
+  "filters": [
+    {
+      "id": "filter-feminine",
+      "type": "filter",
+      "title": "Feminine Silhouettes",
+      "image": "/images/filters/feminine-silhouettes.jpg",
+      "filterType": "gender",
+      "filterValue": "feminine"
+    },
+    {
+      "id": "filter-masculine",
+      "type": "filter",
+      "title": "Masculine Cuts",
+      "image": "/images/filters/masculine-cuts.jpg",
+      "filterType": "gender",
+      "filterValue": "masculine"
+    }
+  ]
+}

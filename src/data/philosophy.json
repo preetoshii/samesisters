@@ -1,0 +1,54 @@
+{
+  "philosophies": [
+    {
+      "id": "phil-1",
+      "type": "philosophy",
+      "statement": "Fashion should come to me, not the other way around"
+    },
+    {
+      "id": "phil-2",
+      "type": "philosophy",
+      "statement": "A piece feels more valuable when it's made just for me"
+    },
+    {
+      "id": "phil-3",
+      "type": "philosophy",
+      "statement": "The best fabrics can't be found in catalogs"
+    },
+    {
+      "id": "phil-4",
+      "type": "philosophy",
+      "statement": "Small imperfections make a garment feel human"
+    },
+    {
+      "id": "phil-5",
+      "type": "philosophy",
+      "statement": "Knowing who made my clothes adds soul to them"
+    },
+    {
+      "id": "phil-6",
+      "type": "philosophy",
+      "statement": "There's magic in owning something no one else has"
+    },
+    {
+      "id": "phil-7",
+      "type": "philosophy",
+      "statement": "A conversation with the maker beats clicking 'buy now'"
+    },
+    {
+      "id": "phil-8",
+      "type": "philosophy",
+      "statement": "The story behind a fabric matters as much as how it looks"
+    },
+    {
+      "id": "phil-9",
+      "type": "philosophy",
+      "statement": "Clothes should adapt to my life, not the other way around"
+    },
+    {
+      "id": "phil-10",
+      "type": "philosophy",
+      "statement": "Waiting for something special makes it more meaningful"
+    }
+  ]
+}

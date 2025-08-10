@@ -1,0 +1,92 @@
+{
+  "fabrics": [
+    {
+      "id": "delhi-silk-blue",
+      "type": "fabric",
+      "name": "Delhi Blue Silk",
+      "fabricType": "silk",
+      "video": "/videos/fabrics/light-blue-silk.mp4",
+      "caption": "Found in a 100-year-old shop in Old Delhi",
+      "tags": ["luminous", "fluid", "drapes-well"],
+      "yardsAvailable": 12,
+      "costPerYard": 45
+    },
+    {
+      "id": "cream-cotton",
+      "type": "fabric",
+      "name": "Cream Cotton",
+      "fabricType": "cotton",
+      "video": "/videos/fabrics/cream-cotton.mp4",
+      "caption": "From a closing mill in Ahmedabad",
+      "tags": ["crisp", "breathable", "holds-shape"],
+      "yardsAvailable": 20,
+      "costPerYard": 25
+    },
+    {
+      "id": "lined-linen",
+      "type": "fabric",
+      "name": "Lined Linen",
+      "fabricType": "linen",
+      "video": "/videos/fabrics/lined-linen.mp4",
+      "caption": "Haggled for this at 5am in Jaipur market",
+      "tags": ["structured", "breathable", "softens-with-wear"],
+      "yardsAvailable": 15,
+      "costPerYard": 35
+    },
+    {
+      "id": "kashmiri-wool",
+      "type": "fabric",
+      "name": "Kashmiri Wool",
+      "fabricType": "wool",
+      "video": "/videos/fabrics/kashmiri-fabric.mp4",
+      "caption": "Directly from the weavers in Kashmir",
+      "tags": ["warm", "luxurious", "heritage-weight"],
+      "yardsAvailable": 8,
+      "costPerYard": 85
+    },
+    {
+      "id": "olive-khadi",
+      "type": "fabric",
+      "name": "Olive Khadi",
+      "fabricType": "cotton",
+      "video": "/videos/fabrics/olive-kala-fabric.mp4",
+      "caption": "Hand-spun cotton from a women's cooperative",
+      "tags": ["textured", "breathable", "gets-better-with-age"],
+      "yardsAvailable": 10,
+      "costPerYard": 40
+    },
+    {
+      "id": "cream-linen",
+      "type": "fabric",
+      "name": "Cream Linen",
+      "fabricType": "linen",
+      "video": "/videos/fabrics/cream-linen.mp4",
+      "caption": "The last bolt from a heritage loom",
+      "tags": ["crisp", "cool", "perfect-weight"],
+      "yardsAvailable": 6,
+      "costPerYard": 50
+    },
+    {
+      "id": "dark-green-linen",
+      "type": "fabric",
+      "name": "Forest Green Linen",
+      "fabricType": "linen",
+      "video": "/videos/fabrics/dark-green-linen.mp4",
+      "caption": "Found this in a forgotten corner of Surat market",
+      "tags": ["rich-color", "medium-weight", "versatile"],
+      "yardsAvailable": 18,
+      "costPerYard": 38
+    },
+    {
+      "id": "blue-white-cotton",
+      "type": "fabric",
+      "name": "Blue Striped Cotton",
+      "fabricType": "cotton",
+      "video": "/videos/fabrics/blue-and-white-lined-cotton.mp4",
+      "caption": "Classic stripes from a family mill in Coimbatore",
+      "tags": ["crisp", "timeless", "easy-care"],
+      "yardsAvailable": 25,
+      "costPerYard": 22
+    }
+  ]
+}

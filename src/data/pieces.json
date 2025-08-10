@@ -1,0 +1,86 @@
+{
+  "pieces": [
+    {
+      "id": "cassata",
+      "type": "piece",
+      "name": "Cassata",
+      "basePrice": 850,
+      "images": [
+        "/images/pieces/cassata/1.jpg",
+        "/images/pieces/cassata/2.jpg",
+        "/images/pieces/cassata/3.jpg",
+        "/images/pieces/cassata/4.jpg",
+        "/images/pieces/cassata/5.jpg"
+      ],
+      "story": "Inspired by the layered Italian ice cream dessert, the Cassata dress is all about celebration. Its tiered silhouette creates movement with every step, while the fitted bodice provides structure. This piece was born from a wedding in Sicily where I watched the bride change into something more comfortable for dancing - why not have both elegance and ease in one piece? Perfect for garden parties where you want to feel dressed up but still chase after kids, or gallery openings where you'll stand for hours but want to look effortless.",
+      "tags": ["garden party", "when you're feeling creative", "for making an entrance"],
+      "compatibleFabricTypes": ["silk", "cotton", "linen"],
+      "genderCategory": "feminine",
+      "fabricSurcharge": 50
+    },
+    {
+      "id": "love-all",
+      "type": "piece",
+      "name": "Love All",
+      "basePrice": 650,
+      "images": [
+        "/images/pieces/love-all/1.jpg",
+        "/images/pieces/love-all/2.jpg",
+        "/images/pieces/love-all/3.jpg",
+        "/images/pieces/love-all/4.jpg"
+      ],
+      "story": "Named after the tennis term that means the score is even, this piece represents balance in all things. A relaxed shirt that can be dressed up or down, with thoughtful details like French seams and mother-of-pearl buttons. I created this after realizing how many of my clients needed something that could transition from a morning meeting to an evening celebration. The slightly longer back hem and side vents make it flattering on every body, while the collar can be worn up for formality or relaxed for ease.",
+      "tags": ["cultural celebration", "intimate gathering vibes", "when you want versatility"],
+      "compatibleFabricTypes": ["cotton", "linen", "silk"],
+      "genderCategory": "both"
+    },
+    {
+      "id": "roja",
+      "type": "piece",
+      "name": "Roja",
+      "basePrice": 1200,
+      "images": [
+        "/images/pieces/roja/1.jpg",
+        "/images/pieces/roja/2.jpeg",
+        "/images/pieces/roja/3.jpg",
+        "/images/pieces/roja/4.jpg",
+        "/images/pieces/roja/5.jpg"
+      ],
+      "story": "Roja means red in Spanish, but this piece comes in any color that makes you feel powerful. It's a statement jacket with traditional embroidery techniques I learned from my grandmother, updated with a modern cut. Each one takes nearly a week to complete because of the hand-stitched details. This was designed for a client who said she needed 'armor for board meetings that still felt like her culture.' The structured shoulders give confidence, while the flowing back panel adds movement. It's become my most requested piece for women stepping into new chapters.",
+      "tags": ["when you're feeling bold", "for making an entrance", "creative wedding guest"],
+      "compatibleFabricTypes": ["silk", "wool", "cotton"],
+      "genderCategory": "feminine",
+      "fabricSurcharge": 100
+    },
+    {
+      "id": "midnight-conference",
+      "type": "piece",
+      "name": "Midnight Conference",
+      "basePrice": 750,
+      "images": [
+        "/images/pieces/cassata/1.jpg",
+        "/images/pieces/cassata/2.jpg",
+        "/images/pieces/cassata/3.jpg"
+      ],
+      "story": "For all those times when the celebration starts right after work. This piece looks like a sophisticated dress from the front but has the comfort of separates - a hidden elastic waist means you can eat, dance, and breathe. Created after too many clients told me they were changing in office bathrooms before events. The fabric choices make all the difference here: in linen it's perfect for summer rooftop parties, in silk it transforms into evening elegance. The sleeve length hits just right to hide upper arms if that's a concern, while still feeling modern.",
+      "tags": ["gallery opening", "when work meets play", "festive but not formal"],
+      "compatibleFabricTypes": ["silk", "cotton", "synthetic"],
+      "genderCategory": "feminine"
+    },
+    {
+      "id": "heritage-kurta",
+      "type": "piece",
+      "name": "Heritage Kurta",
+      "basePrice": 550,
+      "images": [
+        "/images/pieces/love-all/5.jpg",
+        "/images/pieces/love-all/6.jpg",
+        "/images/pieces/love-all/7.jpg"
+      ],
+      "story": "A modern take on the traditional kurta that honors its roots while fitting contemporary life. The length is calibrated to work with both traditional churidars and your favorite jeans. Side slits are placed higher for ease of movement, and pockets are hidden in the seams (because everything needs pockets). This design came from my father, who wanted something that felt appropriate for temple but didn't look out of place at brunch with friends. The collar can be worn closed for formality or open over a t-shirt for weekend ease.",
+      "tags": ["cultural celebration", "when you want to honor tradition", "versatile comfort"],
+      "compatibleFabricTypes": ["cotton", "linen", "silk"],
+      "genderCategory": "masculine"
+    }
+  ]
+}
