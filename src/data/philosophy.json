@@ -3,52 +3,72 @@
     {
       "id": "phil-1",
       "type": "philosophy",
-      "statement": "Fashion should come to me, not the other way around"
+      "statement": "Fashion should come to me, not the other way around",
+      "backgroundMedia": "/images/philosophies/1.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-2",
       "type": "philosophy",
-      "statement": "A piece feels more valuable when it's made just for me"
+      "statement": "A piece feels more valuable when it's made just for me",
+      "backgroundMedia": "/images/philosophies/1.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-3",
       "type": "philosophy",
-      "statement": "The best fabrics can't be found in catalogs"
+      "statement": "The best fabrics can't be found in catalogs",
+      "backgroundMedia": "/images/philosophies/2.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-4",
       "type": "philosophy",
-      "statement": "Small imperfections make a garment feel human"
+      "statement": "Small imperfections make a garment feel human",
+      "backgroundMedia": "/images/philosophies/1.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-5",
       "type": "philosophy",
-      "statement": "Knowing who made my clothes adds soul to them"
+      "statement": "Knowing who made my clothes adds soul to them",
+      "backgroundMedia": "/images/philosophies/2.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-6",
       "type": "philosophy",
-      "statement": "There's magic in owning something no one else has"
+      "statement": "There's magic in owning something no one else has",
+      "backgroundMedia": "/images/philosophies/2.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-7",
       "type": "philosophy",
-      "statement": "A conversation with the maker beats clicking 'buy now'"
+      "statement": "A conversation with the maker beats clicking 'buy now'",
+      "backgroundMedia": "/images/philosophies/1.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-8",
       "type": "philosophy",
-      "statement": "The story behind a fabric matters as much as how it looks"
+      "statement": "The story behind a fabric matters as much as how it looks",
+      "backgroundMedia": "/images/philosophies/2.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-9",
       "type": "philosophy",
-      "statement": "Clothes should adapt to my life, not the other way around"
+      "statement": "Clothes should adapt to my life, not the other way around",
+      "backgroundMedia": "/images/philosophies/1.mp4",
+      "mediaType": "video"
     },
     {
       "id": "phil-10",
       "type": "philosophy",
-      "statement": "Waiting for something special makes it more meaningful"
+      "statement": "Waiting for something special makes it more meaningful",
+      "backgroundMedia": "/images/philosophies/2.mp4",
+      "mediaType": "video"
     }
   ]
 }

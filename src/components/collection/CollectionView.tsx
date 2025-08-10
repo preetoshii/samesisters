@@ -2,8 +2,11 @@ import { useMemo } from 'react';
 import { Card as CardType } from '../../types';
 import { Card } from '../cards/Card';
 import { PhilosophyCard } from '../cards/PhilosophyCard';
+import { FilterCard } from '../cards/FilterCard';
+import { PieceCard } from '../cards/PieceCard';
 import philosophyData from '../../data/philosophy.json';
 import filterData from '../../data/filters.json';
+import piecesData from '../../data/pieces.json';
 import './CollectionView.css';
 
 interface CollectionViewProps {
@@ -25,7 +28,12 @@ export function CollectionView({ collection }: CollectionViewProps) {
       map.set(card.id, card as CardType);
     });
     
-    // Later: Add piece cards, fabric cards, etc.
+    // Add piece cards
+    piecesData.pieces.forEach((card) => {
+      map.set(card.id, card as CardType);
+    });
+    
+    // Later: Add fabric cards, etc.
     
     return map;
   }, []);
@@ -53,14 +61,11 @@ export function CollectionView({ collection }: CollectionViewProps) {
   const renderCard = (card: CardType) => {
     switch (card.type) {
       case 'philosophy':
-        return <PhilosophyCard card={card} />;
+        return <PhilosophyCard card={card as any} />;
       case 'filter':
-        // For now, show filter cards as simple text
-        return (
-          <div style={{ padding: '1rem', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontSize: '0.9rem', textAlign: 'center' }}>{card.text || 'Filter Card'}</p>
-          </div>
-        );
+        return <FilterCard card={card as any} />;
+      case 'piece':
+        return <PieceCard card={card as any} />;
       default:
         return <div>Card type not implemented: {card.type}</div>;
     }

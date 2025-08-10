@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Card as CardType } from '../../types';
 import { Card } from './Card';
 import { PhilosophyCard } from './PhilosophyCard';
+import { FilterCard } from './FilterCard';
+import { PieceCard } from './PieceCard';
 import { useDeck } from '../../contexts/DeckContext';
 import './CardDeck.css';
 
@@ -49,7 +51,11 @@ export function CardDeck({ onSwipe }: CardDeckProps) {
   const renderCard = (card: CardType) => {
     switch (card.type) {
       case 'philosophy':
-        return <PhilosophyCard card={card} />;
+        return <PhilosophyCard card={card as any} />;
+      case 'filter':
+        return <FilterCard card={card as any} />;
+      case 'piece':
+        return <PieceCard card={card as any} />;
       // Add other card types here as we implement them
       default:
         return <div>Card type not implemented: {card.type}</div>;

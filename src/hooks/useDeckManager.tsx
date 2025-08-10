@@ -43,22 +43,43 @@ const saveState = (state: DeckState) => {
 export function useDeckManager() {
   const [deckState, setDeckState] = useState<DeckState>(loadState);
 
+  // Shuffle array helper
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
   // Initialize deck with cards in the correct order
   const initializeDeck = useCallback(() => {
     const cards: Card[] = [];
     
-    // 1. Filter card first (always)
-    if (filterData.filters.length > 0) {
-      cards.push(filterData.filters[0] as Card);
-    }
+    // 1. Filter cards first (both of them)
+    const filterCards = filterData.filters as Card[];
+    cards.push(...filterCards);
     
-    // 2. Philosophy cards
-    const philosophyCards = philosophyData.philosophies as Card[];
-    cards.push(...philosophyCards);
+    // 2. Collect all content cards
+    const contentCards: Card[] = [];
     
-    // 3. Piece cards (when implemented)
-    // const pieceCards = piecesData.pieces as Card[];
-    // cards.push(...pieceCards);
+    // Add philosophy cards - but only include a few (e.g., 3-4 randomly selected)
+    const allPhilosophyCards = philosophyData.philosophies as Card[];
+    console.log('Total philosophy cards available:', allPhilosophyCards.length);
+    const selectedPhilosophy = shuffleArray(allPhilosophyCards).slice(0, 3);
+    console.log('Selected philosophy cards:', selectedPhilosophy.map(c => (c as any).id));
+    contentCards.push(...selectedPhilosophy);
+    
+    // Add all piece cards (these should dominate the deck)
+    const pieceCards = piecesData.pieces as Card[];
+    contentCards.push(...pieceCards);
+    
+    // 3. Shuffle all content cards together
+    const shuffledContent = shuffleArray(contentCards);
+    
+    // 4. Add shuffled content after filter
+    cards.push(...shuffledContent);
     
     setDeckState(prev => ({
       ...prev,
@@ -132,7 +153,7 @@ export function useDeckManager() {
     if (deckState.queue.length === 0) {
       initializeDeck();
     }
-  }, []);
+  }, [initializeDeck]);
 
   // Auto-save state whenever it changes
   useEffect(() => {
@@ -142,7 +163,14 @@ export function useDeckManager() {
   // Clear all data and reset
   const clearAll = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
-    initializeDeck();
+    setDeckState({
+      currentIndex: 0,
+      queue: [],
+      swipeHistory: [],
+      collection: []
+    });
+    // Force re-initialize on next render
+    setTimeout(() => initializeDeck(), 0);
   }, [initializeDeck]);
 
   return {

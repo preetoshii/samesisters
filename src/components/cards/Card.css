@@ -1,9 +1,14 @@
 .card {
   position: absolute;
-  width: 90vw;
-  max-width: 400px;
+  /* Use aspect-ratio to maintain 9:16 portrait ratio */
+  aspect-ratio: 9 / 16;
+  /* Set height as primary dimension */
   height: 80vh;
-  max-height: calc(400px * 16 / 9); /* Maintain 9:16 aspect ratio */
+  max-height: 85vh;
+  /* Width will be calculated from height automatically */
+  max-width: 90vw;
+  /* If width hits max, recalculate based on that */
+  width: min(calc(80vh * 9 / 16), 90vw);
   /* Center using margins instead of transform */
   left: 0;
   right: 0;
@@ -26,22 +31,24 @@
   border-radius: 10px;
   overflow: hidden;
   background: var(--color-surface);
-  border: 3px solid var(--color-border);
   position: relative;
 }
 
-/* Ensure cards maintain aspect ratio on different screens */
+/* Mobile screens - prioritize fitting within viewport */
 @media (max-width: 768px) {
   .card {
+    /* On mobile, constrain by width first */
     width: 85vw;
-    height: calc(85vw * 16 / 9);
-    max-height: 85vh;
+    height: auto; /* Let aspect-ratio handle this */
+    max-height: 80vh;
   }
 }
 
+/* Larger screens - allow bigger cards */
 @media (min-width: 1200px) {
   .card {
-    max-width: 450px;
-    max-height: calc(450px * 16 / 9);
+    height: 75vh;
+    width: calc(75vh * 9 / 16);
+    max-width: 600px; /* Reasonable max for very large screens */
   }
 }

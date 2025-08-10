@@ -39,7 +39,8 @@ export interface PieceCard extends BaseCard {
 export interface PhilosophyCard extends BaseCard {
   type: 'philosophy';
   statement: string;
-  backgroundTexture?: string;
+  backgroundMedia?: string; // Can be image or video URL
+  mediaType?: 'image' | 'video'; // To distinguish between image and video
 }
 
 // Fabric card

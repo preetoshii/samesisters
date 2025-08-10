@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, PanInfo, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from 'framer-motion';
 import { ReactNode, useState, useEffect } from 'react';
 import './Card.css';
 
@@ -140,7 +140,7 @@ export function Card({ children, onSwipe, isActive = false, index = 0, isInColle
       opacity: 1,
       transition: {
         duration: 0.3,
-        ease: 'easeOut',
+        ease: 'easeOut' as const,
       },
     },
     exit: {
@@ -150,7 +150,7 @@ export function Card({ children, onSwipe, isActive = false, index = 0, isInColle
       rotate: exitDirection === 'right' ? 10 : -10,
       transition: {
         duration: keyboardSwipe ? 0.6 : 0.5,
-        ease: 'easeOut',
+        ease: 'easeOut' as const,
       },
     },
   };
@@ -184,31 +184,17 @@ export function Card({ children, onSwipe, isActive = false, index = 0, isInColle
       <motion.div 
         className="card-inner"
         animate={{ 
-          scale: currentScale,
-          borderColor: hasHitThreshold && isDragging 
-            ? (swipeDirection === 'right' ? 'var(--color-swipe-right)' : 'var(--color-swipe-left)')
-            : 'var(--color-border)'
+          scale: currentScale
         }}
         transition={{
           scale: {
             type: "spring",
             stiffness: hasHitThreshold ? 700 : 400,
             damping: hasHitThreshold ? 15 : 25
-          },
-          borderColor: {
-            duration: 0
           }
         }}
       >
-        <motion.div
-          animate={{ 
-            filter: hasHitThreshold && isDragging ? 'blur(10px)' : 'blur(0px)' 
-          }}
-          transition={{ duration: 0.2 }}
-          style={{ width: '100%', height: '100%' }}
-        >
-          {children}
-        </motion.div>
+        {children}
         <AnimatePresence>
           {hasHitThreshold && isDragging && (
             <>
