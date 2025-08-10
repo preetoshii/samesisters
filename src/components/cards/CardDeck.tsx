@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card as CardType } from '../../types';
 import { Card } from './Card';
 import { PhilosophyCard } from './PhilosophyCard';
@@ -11,13 +11,18 @@ interface CardDeckProps {
 }
 
 export function CardDeck({ onSwipe }: CardDeckProps) {
-  const { visibleCards, isDeckEmpty, handleSwipe: deckHandleSwipe, progress } = useDeck();
+  const { visibleCards, isDeckEmpty, handleSwipe: deckHandleSwipe, progress, collection } = useDeck();
+  const [keyboardSwipeDirection, setKeyboardSwipeDirection] = useState<'left' | 'right' | null>(null);
   
   const handleSwipe = (direction: 'left' | 'right') => {
     const currentCard = visibleCards[0];
     if (currentCard) {
       deckHandleSwipe(currentCard.id, direction);
       onSwipe?.(currentCard.id, direction);
+      // Reset keyboard swipe state after handling
+      if (keyboardSwipeDirection) {
+        setTimeout(() => setKeyboardSwipeDirection(null), 100);
+      }
     }
   };
 
@@ -27,15 +32,19 @@ export function CardDeck({ onSwipe }: CardDeckProps) {
       if (isDeckEmpty) return;
       
       if (e.key === 'ArrowLeft') {
-        handleSwipe('left');
+        setKeyboardSwipeDirection('left');
+        // Delay handleSwipe to allow animation to start
+        setTimeout(() => handleSwipe('left'), 50);
       } else if (e.key === 'ArrowRight') {
-        handleSwipe('right');
+        setKeyboardSwipeDirection('right');
+        // Delay handleSwipe to allow animation to start
+        setTimeout(() => handleSwipe('right'), 50);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isDeckEmpty, visibleCards]);
+  }, [isDeckEmpty, handleSwipe]);
 
   const renderCard = (card: CardType) => {
     switch (card.type) {
@@ -56,6 +65,8 @@ export function CardDeck({ onSwipe }: CardDeckProps) {
             onSwipe={handleSwipe}
             isActive={index === 0}
             index={index}
+            isInCollection={collection.includes(card.id)}
+            keyboardSwipe={index === 0 ? keyboardSwipeDirection : null}
           >
             {renderCard(card)}
           </Card>

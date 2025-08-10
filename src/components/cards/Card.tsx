@@ -7,9 +7,11 @@ interface CardProps {
   onSwipe?: (direction: 'left' | 'right') => void;
   isActive?: boolean;
   index?: number;
+  isInCollection?: boolean;
+  keyboardSwipe?: 'left' | 'right' | null;
 }
 
-export function Card({ children, onSwipe, isActive = false, index = 0 }: CardProps) {
+export function Card({ children, onSwipe, isActive = false, index = 0, isInCollection = false, keyboardSwipe = null }: CardProps) {
   const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -72,18 +74,29 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
     setIsPressed(false);
     setHasHitThreshold(false);
     
-    const SWIPE_VELOCITY_THRESHOLD = 500;
-    
-    // Check horizontal movement for swipe
-    const shouldSwipe = Math.abs(info.offset.x) > SWIPE_THRESHOLD || 
-                       Math.abs(info.velocity.x) > SWIPE_VELOCITY_THRESHOLD;
-    
-    if (shouldSwipe) {
-      const direction = info.offset.x > 0 ? 'right' : 'left';
-      setExitDirection(direction);
-      onSwipe?.(direction);
+    // Only handle swipes if onSwipe callback is provided
+    if (onSwipe) {
+      const SWIPE_VELOCITY_THRESHOLD = 500;
+      
+      // Check horizontal movement for swipe
+      const shouldSwipe = Math.abs(info.offset.x) > SWIPE_THRESHOLD || 
+                         Math.abs(info.velocity.x) > SWIPE_VELOCITY_THRESHOLD;
+      
+      if (shouldSwipe) {
+        const direction = info.offset.x > 0 ? 'right' : 'left';
+        setExitDirection(direction);
+        onSwipe(direction);
+      }
     }
   };
+
+  // Handle keyboard swipe
+  useEffect(() => {
+    if (keyboardSwipe && isActive) {
+      setExitDirection(keyboardSwipe);
+      // Don't call onSwipe here - it will be called from CardDeck
+    }
+  }, [keyboardSwipe, isActive]);
 
   // Monitor x position for threshold feedback
   useEffect(() => {
@@ -134,8 +147,9 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
       x: exitDirection === 'right' ? window.innerWidth : -window.innerWidth,
       opacity: 0,
       scale: 0.8,
+      rotate: exitDirection === 'right' ? 10 : -10,
       transition: {
-        duration: 0.5,
+        duration: keyboardSwipe ? 0.6 : 0.5,
         ease: 'easeOut',
       },
     },
@@ -147,7 +161,7 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
   return (
     <motion.div
       className="card"
-      drag={isActive ? true : false}
+      drag={isActive && onSwipe ? true : false}
       dragSnapToOrigin={true}
       dragConstraints={false}
       dragElastic={0.15}
@@ -244,6 +258,39 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
             </>
           )}
         </AnimatePresence>
+        {isInCollection && isActive && (
+          <>
+            {/* Top right heart */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '0.5rem',
+                right: '0.5rem',
+                fontSize: '1.5rem',
+                color: 'var(--color-swipe-right)',
+                zIndex: 12,
+                pointerEvents: 'none'
+              }}
+            >
+              ♥
+            </div>
+            {/* Bottom left heart (upside down) */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0.5rem',
+                left: '0.5rem',
+                fontSize: '1.5rem',
+                color: 'var(--color-swipe-right)',
+                transform: 'rotate(180deg)',
+                zIndex: 12,
+                pointerEvents: 'none'
+              }}
+            >
+              ♥
+            </div>
+          </>
+        )}
       </motion.div>
       {!isActive && (
         <div 

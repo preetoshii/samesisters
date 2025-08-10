@@ -76,13 +76,31 @@ export function useDeckManager() {
         timestamp: Date.now()
       }];
       
-      const newCollection = direction === 'right' 
-        ? [...prev.collection, cardId]
-        : prev.collection;
+      // Add to collection if swiped right and not already there
+      let newCollection = prev.collection;
+      if (direction === 'right') {
+        if (!prev.collection.includes(cardId)) {
+          newCollection = [...prev.collection, cardId];
+        }
+      } else {
+        // Remove from collection if swiped left
+        newCollection = prev.collection.filter(id => id !== cardId);
+      }
       
+      // Move the swiped card to the back of the queue
+      const currentCard = prev.queue[prev.currentIndex];
+      const newQueue = [...prev.queue];
+      
+      // Remove from current position
+      newQueue.splice(prev.currentIndex, 1);
+      // Add to the end
+      newQueue.push(currentCard);
+      
+      // Don't increment index since we removed the current card
+      // This keeps us at the same position but with a new card
       return {
         ...prev,
-        currentIndex: prev.currentIndex + 1,
+        queue: newQueue,
         swipeHistory: newHistory,
         collection: newCollection
       };
@@ -95,8 +113,8 @@ export function useDeckManager() {
     return queue.slice(currentIndex, currentIndex + 3);
   }, [deckState]);
 
-  // Check if deck is empty
-  const isDeckEmpty = deckState.currentIndex >= deckState.queue.length;
+  // Check if deck is empty (now it never will be)
+  const isDeckEmpty = deckState.queue.length === 0;
 
   // Get progress info
   const getProgress = useCallback(() => {

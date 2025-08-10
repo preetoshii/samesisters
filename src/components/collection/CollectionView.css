@@ -1,7 +1,8 @@
 .collection-view {
-  min-height: 100vh;
+  height: 100vh;
   padding: 1rem;
-  padding-bottom: 80px; /* Account for tab bar */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .collection-empty {
@@ -41,26 +42,42 @@
 
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .collection-item {
+  position: relative;
+  width: 100%;
   aspect-ratio: 9 / 16;
-  background-color: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
-.collection-item-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Override card styles for collection view */
+.collection-item .card {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.collection-item .card-inner {
+  border-width: 2px;
+}
+
+/* Override philosophy card text size for collection view */
+.collection-item .philosophy-card {
+  font-size: 0.75rem;
+  padding: 1rem;
+}
+
+.collection-item .philosophy-card blockquote {
   font-size: 0.8rem;
-  color: var(--color-text-tertiary);
-  word-break: break-all;
-  padding: 0.5rem;
+  line-height: 1.3;
+}
+
+.collection-item .philosophy-card .author {
+  font-size: 0.7rem;
 }

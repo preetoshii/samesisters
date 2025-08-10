@@ -1,0 +1,31 @@
+.sliding-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sliding-content {
+  display: flex;
+  width: 200vw; /* Two full screens side by side */
+  height: 100vh;
+}
+
+.view-section {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.discover-section {
+  /* First section */
+}
+
+.collection-section {
+  /* Second section, to the right */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
