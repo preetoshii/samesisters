@@ -13,7 +13,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-secondary);
   font-style: italic;
   z-index: 100;
 }
@@ -24,7 +24,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 14px;
-  color: #999;
+  color: var(--color-text-tertiary);
   z-index: 100;
 }
 
@@ -35,7 +35,7 @@
 
 .deck-empty p {
   font-size: 1.5rem;
-  color: #666;
+  color: var(--color-text-secondary);
   opacity: 0.6;
 }
 
@@ -47,11 +47,11 @@
 .deck-complete h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .deck-complete p {
   font-size: 1.2rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin: 0.5rem 0;
 }

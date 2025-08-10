@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CardDeck } from './components/cards/CardDeck';
+import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Card } from './types';
 import philosophyData from './data/philosophy.json';
 import './App.css';
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <ThemeToggle />
       <CardDeck cards={cards} onSwipe={handleSwipe} />
     </div>
   );

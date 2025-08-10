@@ -12,6 +12,7 @@ interface CardProps {
 export function Card({ children, onSwipe, isActive = false, index = 0 }: CardProps) {
   const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
   const [hasHitThreshold, setHasHitThreshold] = useState(false);
   
   // Adaptive values based on screen width - fully proportional
@@ -29,24 +30,26 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
   const rotate = useTransform(x, [-ROTATION_RANGE, ROTATION_RANGE], [-30, 30]);
   const rotateY = useTransform(y, [-200, 200], [5, -5]); // Subtle 3D tilt
   
-  // Dynamic shadow based on position
-  const shadowX = useTransform(x, [-200, 200], [20, -20]);
-  const shadowY = useTransform(y, [-200, 200], [20, -20]);
-  const boxShadow = useTransform(
-    [shadowX, shadowY],
-    ([latestX, latestY]) => `${latestX}px ${latestY}px 30px rgba(0, 0, 0, 0.2)`
-  );
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-    // Haptic feedback on drag start
+  const handlePointerDown = () => {
+    setIsPressed(true);
+    // Haptic feedback on press
     if ('vibrate' in navigator) {
       navigator.vibrate(10);
     }
   };
 
+  const handlePointerUp = () => {
+    setIsPressed(false);
+  };
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
   const handleDragEnd = async (_: any, info: PanInfo) => {
     setIsDragging(false);
+    setIsPressed(false);
     setHasHitThreshold(false);
     
     const SWIPE_VELOCITY_THRESHOLD = 500;
@@ -113,7 +116,7 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
   };
 
   // Calculate current scale based on state
-  const currentScale = isDragging ? (hasHitThreshold ? 1.15 : 1.05) : 1;
+  const currentScale = isPressed ? (hasHitThreshold ? 1.15 : 1.05) : 1;
 
   return (
     <motion.div
@@ -140,6 +143,9 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
         rotateX: isActive ? rotateY : 0,
       }}
       onDragStart={handleDragStart}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
     >
       <motion.div 
         className="card-inner"
@@ -151,12 +157,22 @@ export function Card({ children, onSwipe, isActive = false, index = 0 }: CardPro
             damping: hasHitThreshold ? 15 : 25
           }
         }}
-        style={{
-          boxShadow: isActive ? boxShadow : '0 10px 30px rgba(0, 0, 0, 0.2)'
-        }}
       >
         {children}
       </motion.div>
+      {!isActive && (
+        <div 
+          className="card-overlay"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'var(--color-card-overlay)',
+            pointerEvents: 'none',
+            borderRadius: '10px',
+            zIndex: 10
+          }}
+        />
+      )}
     </motion.div>
   );
 }
