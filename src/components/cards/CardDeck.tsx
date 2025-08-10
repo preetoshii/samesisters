@@ -1,32 +1,30 @@
 import { AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Card as CardType } from '../../types';
 import { Card } from './Card';
 import { PhilosophyCard } from './PhilosophyCard';
+import { useDeck } from '../../contexts/DeckContext';
 import './CardDeck.css';
 
 interface CardDeckProps {
-  cards: CardType[];
   onSwipe?: (cardId: string, direction: 'left' | 'right') => void;
 }
 
-export function CardDeck({ cards, onSwipe }: CardDeckProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export function CardDeck({ onSwipe }: CardDeckProps) {
+  const { visibleCards, isDeckEmpty, handleSwipe: deckHandleSwipe, progress } = useDeck();
   
   const handleSwipe = (direction: 'left' | 'right') => {
-    const currentCard = cards[currentIndex];
-    if (currentCard && onSwipe) {
-      onSwipe(currentCard.id, direction);
+    const currentCard = visibleCards[0];
+    if (currentCard) {
+      deckHandleSwipe(currentCard.id, direction);
+      onSwipe?.(currentCard.id, direction);
     }
-    
-    // Move to next card
-    setCurrentIndex(prev => prev + 1);
   };
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (currentIndex >= cards.length) return;
+      if (isDeckEmpty) return;
       
       if (e.key === 'ArrowLeft') {
         handleSwipe('left');
@@ -37,7 +35,7 @@ export function CardDeck({ cards, onSwipe }: CardDeckProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, cards.length]);
+  }, [isDeckEmpty, visibleCards]);
 
   const renderCard = (card: CardType) => {
     switch (card.type) {
@@ -48,9 +46,6 @@ export function CardDeck({ cards, onSwipe }: CardDeckProps) {
         return <div>Card type not implemented: {card.type}</div>;
     }
   };
-
-  // Show up to 3 cards in the stack
-  const visibleCards = cards.slice(currentIndex, currentIndex + 3);
 
   return (
     <div className="card-deck">
@@ -67,9 +62,12 @@ export function CardDeck({ cards, onSwipe }: CardDeckProps) {
         ))}
       </AnimatePresence>
       
-      {currentIndex >= cards.length && (
+      {isDeckEmpty && (
         <div className="deck-empty">
           <p>No more cards!</p>
+          <p className="deck-stats">
+            {progress.collected} items in your collection
+          </p>
         </div>
       )}
     </div>
